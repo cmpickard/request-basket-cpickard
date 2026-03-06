@@ -14,7 +14,15 @@ router.get('/', basketController.handleRedirectToBaskets);
 router.get('/baskets/:endpoint', basketController.handleGetBasketRequests);
 
 // POST: Create a new basket.
-router.post('/:endpoint', basketController.handleCreateNewBasket);
+router.post('/baskets/:endpoint', basketController.handleCreateNewBasket);
+
+// POST: Send a requests to a specific basket.
+router.all('/:endpoint', basketController.handleWebhookRequest);
 
 // PUT: Clear a basket
 router.put('/:endpoint/clear', basketController.handleClearBasket);
+
+// $http POST localhost:3000/1234
+// REST client
+
+export default router;

@@ -8,10 +8,30 @@ const basketSchema = new Schema({
 
 export const basketModel = {
   getBasketRequests(endpoint: string) {
+    // Return as JSON
     // logic
   },
 
   getExistingBaskets() {
     // logic
-  }
+  },
+
+  addEndpoint(endpoint) {
+    //
+  },
+  
+  basketExists(endpoint) {
+
+    // logic
+  },
+  
+  addWebhookRequest(endpoint, payload) {
+    // logic
+  },
+
+  clearBasket(endpoint) {
+    // logic
+
+  },
+
 }
