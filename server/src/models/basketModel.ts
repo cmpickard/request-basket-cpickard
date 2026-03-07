@@ -6,6 +6,10 @@ const basketSchema = new Schema({
   payload: Object, 
 });
 
+// webhook request -> mongo -> endpoint key : [req1, req2 ...]
+// postgreql -> list of endpoints
+
+
 export const basketModel = {
   getBasketRequests(endpoint: string) {
     // Return as JSON

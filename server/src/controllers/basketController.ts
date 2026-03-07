@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { basketModel } from '../models/basketModel';
+import { type WebSocket } from 'ws';
 
 export const basketController = {
   handleGetBaskets(req: Request, res: Response) {
@@ -11,11 +12,11 @@ export const basketController = {
     res.redirect("/baskets");
   },
 
-  handleGetBasketRequests(req: Request, res: Response) {
+  handleGetBasketRequests(ws: WebSocket, req: Request) {
     const { endpoint } = req.params;
     const requests = basketModel.getBasketRequests(endpoint);
     // requests is json.
-    res.send(requests);
+    ws.send(requests);
   },
 
   handleCreateNewBasket(req: Request, res: Response) {
@@ -25,8 +26,11 @@ export const basketController = {
     if (basketModel.basketExists(endpoint)) {
       res.status(409).json({ message: "Endpoint name is invalid."});
     } else {
+      // Generate JWT token for user. 
+      // This is stored locally in browser.
+      // If user tries to access same endpoint with different/altered token, respond with 401 message.
       basketModel.addEndpoint(endpoint);
-      res.status(200).json({ message: "endpoint is available"});
+      res.status(200).json({ message: "endpoint is available", token: "..." });
     }
   },
 
