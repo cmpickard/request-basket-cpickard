@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import RequestList from './RequestList.tsx';
 import type { Request } from '../types/Request.ts'
 
@@ -40,7 +40,6 @@ const DUMMY_DATA: Array<Request> = [
 export default function Basket() {
   const [requests, setRequests] = useState([]);
   let { url } = useParams();
-  console.log(url);
 
   function getRequests() {
     (async () => {
@@ -56,7 +55,7 @@ export default function Basket() {
           console.log(e)
         }
       }
-    })()
+    })();
   }
 
   useEffect(getRequests, []);
@@ -66,5 +65,7 @@ export default function Basket() {
   <>
     <h1>Basket Name: {url}</h1>
     <RequestList requests={DUMMY_DATA}/>
+    {/* // change to `requests` */}
+    <Link to="/">Back</Link>
   </>)
 }

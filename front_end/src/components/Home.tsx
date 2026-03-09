@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import Modal from  "./Modal"
-import { createBasketName, isValidBasketName } from "../utils/basketUtilities";
+import { createBasketName, isValidBasketName, getBasketsFromStorage } from "../utils/basketUtilities";
 import type { BasketUrls } from "../types/BasketUrls";
+import type { BasketToken } from "../types/Token";
+import BasketList from './BasketList';
 
 function BasketNameError({error}: {error: string}) {
   return (
@@ -14,6 +16,7 @@ export default function Home() {
   const [visibleModal, setVisibleModal] = useState(false);
   const [error, setError] = useState('');
   const [urls, setUrls] = useState<BasketUrls>({viewBasket: '', sendToBasket: ''});
+  const [basketTokens, setBasketTokens] = useState<Array<BasketToken>>(getBasketsFromStorage());
 
   async function handleCreateBasket(e: React.SyntheticEvent) {
     e.preventDefault();
@@ -25,29 +28,38 @@ export default function Home() {
       
       return;
     }
+
     let options = {
       method: 'POST'
-    }
+    };
 
     try {
-      // let response = await fetch(`http://localhost:3000/${basketName}`, options);
-      // if (response.ok) {
-      //   let urls = await response.json();
-      //   setUrls(urls);
-      //   setVisibleModal(true);
-      // } else {
-      //   let message = await response.json(); // or are they sending the error as text?
-      //   setError(message);
-      // }
+      // ACTUALLY COMMUNICATE W/ BACKEND
+      let response = await fetch(`http://localhost:3000/${basketName}`, options);
+      if (response.ok) {
+        let token: BasketToken = await response.json();
+        localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
+        let urls: BasketUrls = {
+          viewBasket: `http://localhost:3000/baskets/${basketName}`,
+          sendToBasket: `http://localhost:3000/${basketName}`,
+        }
+        setUrls(urls);
+        setVisibleModal(true);
+        setBasketTokens(getBasketsFromStorage());
+      } else {
+        let message = await response.json(); // or are they sending the error as text?
+        setError(message);
+      }
 
       // TEST MODAL:
-      let urls: BasketUrls = {
-        viewBasket: `http://localhost:3000/baskets/${basketName}`,
-        sendToBasket: `http://localhost:3000/${basketName}`
-      };
-      setUrls(urls);
-      setVisibleModal(true);
-      setBasketName(createBasketName());
+    //   let urls: BasketUrls = {
+    //     viewBasket: `http://localhost:3000/baskets/${basketName}`,
+    //     sendToBasket: `http://localhost:3000/${basketName}`
+    //   };
+    //   setUrls(urls);
+    //   setVisibleModal(true);
+    //   setBasketName(createBasketName());
+    
     } catch (e: Error | unknown) {
       if (e instanceof Error) {
         console.log(e.message);
@@ -66,6 +78,11 @@ export default function Home() {
           onChange={(e) => setBasketName(e.target.value)}></input>
         <button type="submit">Create Basket</button>
       </form>
+      <BasketList basketTokens={basketTokens}/>
+      {/* When the user has no baskets, do we:
+      1. Fail to render the BasketList component, or
+      2. Render it with a message that says, "No baskets"
+      ? */}
     </>
   )
 }

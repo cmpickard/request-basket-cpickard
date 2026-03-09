@@ -1,3 +1,4 @@
+import type { BasketToken } from "../types/Token";
 const BASE62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export function createBasketName() {
@@ -17,6 +18,20 @@ export function isValidBasketName(name: string) {
   return regex.test(name);
 }
 
+export function getBasketsFromStorage() {
+  let tokens = Object.entries(localStorage).filter((entry: [string, string]) => {
+    return /^basket_/.test(entry[0]);
+  });
+
+  let tokenArray = tokens.map((pair: [string, string]) => {
+    let key: string = pair[0].replace('basket_', '');
+    let value: string = pair[1];
+    return Object.fromEntries([[key, value]]) as BasketToken;
+  });
+
+  return tokenArray;
+}
+
 /* TESTS FOR REGEX
 let valid1 = 'asdfasdfjh4455';
 let valid2 = '2345236896jlkasdfnasdflkn';
@@ -27,4 +42,15 @@ console.log(isValidBasketName(valid1))
 console.log(isValidBasketName(valid2))
 console.log(isValidBasketName(invalid1))
 console.log(isValidBasketName(invalid2))
+*/
+
+/* TESTS FOR getBasketsFromStorage
+
+let testStorage: Object = {
+  'basket_4352345': 'n3452345',
+  'basket_345n2l345nk': 'asdfno23423',
+  'invalid1234kj1245': 'asdkjfhasldkjh'
+};
+
+console.log(getBasketsFromStorage());
 */
