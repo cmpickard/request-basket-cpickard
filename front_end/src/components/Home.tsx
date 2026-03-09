@@ -35,30 +35,30 @@ export default function Home() {
 
     try {
       // ACTUALLY COMMUNICATE W/ BACKEND
-      let response = await fetch(`http://localhost:3000/${basketName}`, options);
-      if (response.ok) {
-        let token: BasketToken = await response.json();
-        localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
-        let urls: BasketUrls = {
-          viewBasket: `http://localhost:3000/baskets/${basketName}`,
-          sendToBasket: `http://localhost:3000/${basketName}`,
-        }
-        setUrls(urls);
-        setVisibleModal(true);
-        setBasketTokens(getBasketsFromStorage());
-      } else {
-        let message = await response.json(); // or are they sending the error as text?
-        setError(message);
-      }
+      // let response = await fetch(`http://localhost:3000/${basketName}`, options);
+      // if (response.ok) {
+      //   let token: BasketToken = await response.json();
+      //   localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
+      //   let urls: BasketUrls = {
+      //     viewBasket: `http://localhost:3000/baskets/${basketName}`,
+      //     sendToBasket: `http://localhost:3000/${basketName}`,
+      //   }
+      //   setUrls(urls);
+      //   setVisibleModal(true);
+      //   setBasketTokens(getBasketsFromStorage());
+      // } else {
+      //   let message = await response.json(); // or are they sending the error as text?
+      //   setError(message);
+      // }
 
       // TEST MODAL:
-    //   let urls: BasketUrls = {
-    //     viewBasket: `http://localhost:3000/baskets/${basketName}`,
-    //     sendToBasket: `http://localhost:3000/${basketName}`
-    //   };
-    //   setUrls(urls);
-    //   setVisibleModal(true);
-    //   setBasketName(createBasketName());
+      let urls: BasketUrls = {
+        viewBasket: `http://localhost:3000/baskets/${basketName}`,
+        sendToBasket: `http://localhost:3000/${basketName}`
+      };
+      setUrls(urls);
+      setVisibleModal(true);
+      setBasketName(createBasketName());
     
     } catch (e: Error | unknown) {
       if (e instanceof Error) {

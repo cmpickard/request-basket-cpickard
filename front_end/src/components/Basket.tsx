@@ -62,10 +62,13 @@ export default function Basket() {
   
 
   return (
-  <>
-    <h1>Basket Name: {url}</h1>
-    <RequestList requests={DUMMY_DATA}/>
-    {/* // change to `requests` */}
-    <Link to="/">Back</Link>
-  </>)
+    <div className="basket-container" id="basket">
+      <h1 className="basket-title">Basket Name: {url}</h1>
+      <div className="basket-list-wrapper">
+        <RequestList requests={DUMMY_DATA}/>
+        {/* // change to `requests` */}
+      </div>
+      <Link className="back-link" to="/">Back</Link>
+    </div>
+  )
 }
