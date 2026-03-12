@@ -8,7 +8,7 @@ export const mongoModel = {
   async getBasketRequests(endpoint: string) {
     try {
       const documents = await Request.find({ endpoint });
-      return JSON.stringify(documents);
+      return documents;
     } catch (e) {
       console.error(e);
       throw new Error("Failed to retrieve basket");
@@ -28,11 +28,10 @@ export const mongoModel = {
   
   async clearBasket(endpoint: string) {
     try {
-      return await Request.deleteMany({ endpoint });  // => Promise<{ acknowledge: booolean, deleteCount: number }>
+      return await Request.deleteMany({ endpoint });
     } catch (e) {
-      const errorMessage = "Failed to clear requests from basket."
-      console.error(errorMessage);
-      throw new Error(errorMessage);
+      console.error(e);
+      throw new Error("Failed to clear basket.");
     }
   }
 };
