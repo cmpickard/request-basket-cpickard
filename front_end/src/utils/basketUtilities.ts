@@ -32,6 +32,13 @@ export function getBasketsFromStorage() {
   return tokenArray;
 }
 
+/*
+export function breakUpHeaderString(value) {
+
+}
+
+*/
+
 /* TESTS FOR REGEX
 let valid1 = 'asdfasdfjh4455';
 let valid2 = '2345236896jlkasdfnasdflkn';

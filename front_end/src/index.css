@@ -79,6 +79,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-left: 20px;
 }
 .basket-list-item {
   background: #fff;
@@ -88,6 +89,7 @@
   padding: 1.2rem 1rem;
   box-shadow: 0 2px 8px rgba(60,72,100,0.06);
   transition: box-shadow 0.2s, border-color 0.2s;
+  margin-left: 20px;
 }
 .basket-list-item:hover {
   box-shadow: 0 4px 16px rgba(60,72,100,0.12);
@@ -136,6 +138,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+}
+.basket-list-title {
+  margin-left: 20px;
 }
 .basket-list-item {
   background: #fff;

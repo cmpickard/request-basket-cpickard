@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RequestList from './RequestList.tsx';
 import type { Request } from '../types/Request';
-import { useWebSocket } from '../hooks/useWebSocket';
+// import { useWebSocket } from '../hooks/useWebSocket';
 
 export default function Basket() {
   const [requests, setRequests] = useState<Array<Request>>([]);
   let { url } = useParams();
-  const { newRequest, sendMessage } = useWebSocket(`http://localhost:3000/baskets/${url}`);
+  // const { newRequest, sendMessage } = useWebSocket(`http://localhost:3000/baskets/${url}`);
 
-  function handleNewRequest() {
-    if (newRequest !== null) setRequests([...requests, newRequest]);
+  // function handleNewRequest() {
+  //   if (newRequest !== null) setRequests([...requests, newRequest]);
 
-    // what message should we actually send? Do we need to send a message?
-    sendMessage('GOT IT!');
-  }
+  //   // what message should we actually send? Do we need to send a message?
+  //   sendMessage('GOT IT!');
+  // }
 
-  useEffect(handleNewRequest, [newRequest]);
+  // useEffect(handleNewRequest, [newRequest]);
 
   function getRequests() {
     (async () => {
@@ -53,6 +53,7 @@ export default function Basket() {
       
       const { deletedCount } = await response.json();
       console.log(`Deleted ${deletedCount} responses`);
+      setRequests([]);
     } catch (error: Error | unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -67,7 +68,7 @@ export default function Basket() {
     <div className="basket-container" id="basket">
       <h1 className="basket-title">Basket Name: {url}</h1>
       <div className="basket-list-wrapper">
-        <RequestList requests={requests}/>
+        <RequestList requests={requests} />
       </div>
       <button onClick={handleClearBasket}
               style={{"backgroundColor": 'red'}}>

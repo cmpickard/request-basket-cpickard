@@ -1,10 +1,20 @@
 import { generateToken } from "../services/token";
-import { pool } from "./dbConnection"
+import { Pool } from "pg";
+import dotenv from "dotenv";
+dotenv.config();
+// import { pool } from "./dbConnection"
+
+const pgURI = process.env.PG_URI;
+if (!pgURI) throw new Error('PG_URI not set in .env');
+
+const pool = new Pool({
+    connectionString: pgURI,
+});
 
 export const pgModel = {
   async addNewBasket(endpoint: string) {
     const token = generateToken(endpoint);
-    const command = 'INSERT INTO baskets (endpoint, token) VALUES ($1, $2)';
+    const command = 'INSERT INTO baskets (basket_endpoint, token) VALUES ($1, $2)';
 
     try {
       await pool.query(command, [endpoint, token]);
@@ -16,7 +26,7 @@ export const pgModel = {
   },
   
   async getBasketToken(endpoint: string) {
-    const command = 'SELECT token FROM baskets WHERE endpoint = $1';
+    const command = 'SELECT token FROM baskets WHERE basket_endpoint = $1;';
 
     try {
       const res = await pool.query(command, [endpoint]);
@@ -28,6 +38,12 @@ export const pgModel = {
   },
 
   async basketExists(endpoint: string) {
-    return (await this.getBasketToken(endpoint)) !== null;
+    try {
+     const token = await this.getBasketToken(endpoint);
+     console.log(token);
+     return token !== null;
+    } catch (e) { 
+      console.error(e);
+    }
   },
 };

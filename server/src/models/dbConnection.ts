@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-export { pool } from "./pgPool";
+// export { pool } from "./pgPool";
+
 
 export async function connectDBs() {
   await connectMongo();

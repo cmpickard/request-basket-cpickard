@@ -13,7 +13,6 @@ export default function SingleRequest({ request }: { request: Request }) {
   return (
     <>
       <li className="request-method">Method: {request.method}</li>
-      <li className="request-timestamp">Timestamp: {request.timestamp}</li>
       <li className="request-body">Body:<br/>
         {typeof request.body !== 'string' ? JSON.stringify(request.body) : request.body}
       </li>

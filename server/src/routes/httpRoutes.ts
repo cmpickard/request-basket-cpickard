@@ -6,7 +6,9 @@ export function registerHttpRoutes(router: Router) {
 
   // router.get("/", basketController.handleRedirectToBaskets);
 
-  router.post("/baskets/:endpoint", basketController.handleCreateNewBasket);
+  router.get("/baskets/:endpoint", basketController.handleGetBasketRequests);
+
+  router.post("/baskets/create/:endpoint", basketController.handleCreateNewBasket);
 
   router.all("/:endpoint", basketController.handleWebhookRequest);
 

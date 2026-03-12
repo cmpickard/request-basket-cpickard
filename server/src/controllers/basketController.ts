@@ -27,16 +27,24 @@ export const basketController = {
 
   async handleCreateNewBasket(req: Request<{ endpoint: string }>, res: Response) {
     const { endpoint } = req.params;
+    let basketExists;
 
-    if (await pgModel.basketExists(endpoint)) {
-      res.status(409).json({ error: "Endpoint already taken. Please choose another endpoint." });
-    } else {
-      try {
-        const token = await pgModel.addNewBasket(endpoint);
-        res.status(200).json({ message: "endpoint is available", token });
-      } catch (e) {
-        res.status(400).json({ error: "Basket could not be created." });
+    try {
+      basketExists = await pgModel.basketExists(endpoint);
+
+      if (basketExists) {
+        res.status(409).json({ error: "Endpoint already taken. Please choose another endpoint." });
+      } else {
+
+        try {
+          const token = await pgModel.addNewBasket(endpoint);
+          res.status(200).json({ [`basket_${endpoint}`]: token });
+        } catch (e) {
+          res.status(400).json({ error: "Basket could not be created." });
+        }
       }
+    } catch (e) {
+      console.error(e);
     }
   },
 
