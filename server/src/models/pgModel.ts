@@ -1,4 +1,4 @@
-import { generateToken } from "../services/auth";
+import { generateToken } from "../services/token";
 import { pool } from "./dbConnection"
 
 export const pgModel = {
@@ -7,23 +7,20 @@ export const pgModel = {
     const command = 'INSERT INTO baskets (endpoint, token) VALUES ($1, $2)';
 
     try {
-      const res = await pool.query(command, [endpoint, token]);
+      await pool.query(command, [endpoint, token]);
+      return token;
     } catch (e) {
       console.error(e);
-      throw new Error('Query failed to insert new basket.');
+      throw new Error('Failed to create a new basket.');
     }
   },
   
   async getBasketToken(endpoint: string) {
-    const command = 'SELECT * FROM baskets WHERE endpoint = $1';
+    const command = 'SELECT token FROM baskets WHERE endpoint = $1';
 
     try {
       const res = await pool.query(command, [endpoint]);
-      if (res.rows.length > 0) {
-        return res.rows[0].token;
-      } else {
-        return null;
-      }
+      return res.rows.length > 0 ? res.rows[0].token : null;
     } catch (e) {
       console.error(e);
       throw new Error('Query failed to retrieve a token for given endpoint.');
@@ -31,14 +28,6 @@ export const pgModel = {
   },
 
   async basketExists(endpoint: string) {
-    const command = 'SELECT * FROM baskets WHERE endpoint = $1';
-    
-    try {
-      const res = await pool.query(command, [endpoint]);
-      return res.rows.length > 0;
-    } catch (e) {
-      console.error(e);
-      throw new Error("Failed to determine if basket exists");
-    }
+    return (await this.getBasketToken(endpoint)) !== null;
   },
 };

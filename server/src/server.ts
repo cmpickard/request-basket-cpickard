@@ -1,4 +1,4 @@
-import "./env";
+import "./models/env";
 import express from "express";
 import cors from "cors";
 import { Router } from "express";
@@ -20,7 +20,7 @@ async function main() {
     console.log(`Server is running on PORT ${PORT}`);
   });
 
-  connectDBs();
+  await connectDBs();
 
   ['SIGINT', 'SIGTERM'].forEach(signal => {
     process.on(signal, () => {
