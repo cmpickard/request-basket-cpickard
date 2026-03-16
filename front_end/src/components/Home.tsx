@@ -33,15 +33,15 @@ export default function Home() {
     };
 
     try {
-      let response = await fetch(`http://localhost:3000/baskets/create/${basketName}`, options);
+      let response = await fetch(`/baskets/create/${basketName}`, options);
       if (response.ok) {
         console.log('Basket successfully created');
         let token: BasketToken = await response.json();
         console.log(token);
         localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
         let urls: BasketUrls = {
-          viewBasket: `http://localhost:3000/baskets/${basketName}`,
-          sendToBasket: `http://localhost:3000/${basketName}`,
+          viewBasket: `/baskets/${basketName}`,
+          sendToBasket: `/${basketName}`,
         }
         setUrls(urls);
         setVisibleModal(true);
@@ -50,15 +50,6 @@ export default function Home() {
         let message = await response.text();
         setError(message);
       }
-
-      // TEST MODAL:
-      // let urls: BasketUrls = {
-      //   viewBasket: `http://localhost:3000/baskets/${basketName}`,
-      //   sendToBasket: `http://localhost:3000/${basketName}`
-      // };
-      // setUrls(urls);
-      // setVisibleModal(true);
-      // setBasketName(createBasketName());
     
     } catch (e: Error | unknown) {
       if (e instanceof Error) {
