@@ -33,14 +33,14 @@ export default function Home() {
     };
 
     try {
-      let response = await fetch(`/baskets/create/${basketName}`, options);
+      let response = await fetch(`/api/baskets/create/${basketName}`, options);
       if (response.ok) {
         console.log('Basket successfully created');
         let token: BasketToken = await response.json();
         console.log(token);
         localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
         let urls: BasketUrls = {
-          viewBasket: `/baskets/${basketName}`,
+          viewBasket: `/api/baskets/${basketName}`,
           sendToBasket: `/${basketName}`,
         }
         setUrls(urls);

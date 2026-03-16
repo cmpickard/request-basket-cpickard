@@ -19,7 +19,7 @@ export default function Modal({urls, setVisibleModal}:
         <p>Congratulations! Your basket has been created.</p>
         <ul>
           <li>To look at the contents of your basket, visit
-            <Link to={`/baskets/${basketName}`}> {urls.viewBasket}
+            <Link to={`/api/baskets/${basketName}`}> {urls.viewBasket}
             </Link>
           </li>
           <li>To send an HTTP request to your basket, use {urls.sendToBasket}

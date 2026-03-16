@@ -6,11 +6,11 @@ export function registerHttpRoutes(router: Router) {
 
   // router.get("/", basketController.handleRedirectToBaskets);
 
-  router.get("/baskets/:endpoint", basketController.handleGetBasketRequests);
+  router.get("/api/baskets/:endpoint", basketController.handleGetBasketRequests);
 
-  router.post("/baskets/create/:endpoint", basketController.handleCreateNewBasket);
+  router.post("/api/baskets/create/:endpoint", basketController.handleCreateNewBasket);
 
-  router.all("/:endpoint", basketController.handleWebhookRequest);
+  router.all("/api/:endpoint", basketController.handleWebhookRequest);
 
-  router.put("/:endpoint/clear", basketController.handleClearBasket);
+  router.put("/api/:endpoint/clear", basketController.handleClearBasket);
 }
