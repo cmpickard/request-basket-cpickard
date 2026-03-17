@@ -11,6 +11,7 @@ export default function Modal({urls, setVisibleModal}:
   }
 
   const basketName = urls.sendToBasket.split('/').slice(-1)[0];
+  const copyURL = `http://3.239.38.255/api/${basketName}`;
   return (
     <div id="overlay"
          onClick={() => setVisibleModal(false)}>
@@ -22,7 +23,7 @@ export default function Modal({urls, setVisibleModal}:
             <Link to={`/baskets/${basketName}`}> {urls.viewBasket}
             </Link>
           </li>
-          <li>To send an HTTP request to your basket, use http://3.239.38.255/api/{urls.sendToBasket}
+          <li>To send an HTTP request to your basket, use {copyURL}
           To send an HTTP request to your basket, use /G0DEl2oH
             <button onClick={handleCopyURL}>
               Copy URL
