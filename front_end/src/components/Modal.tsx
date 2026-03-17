@@ -1,14 +1,11 @@
 import type { BasketUrls } from "../types/BasketUrls";
 import { Link } from 'react-router-dom';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 export default function Modal({urls, setVisibleModal}:
   { urls: BasketUrls,
     setVisibleModal: (value: React.SetStateAction<boolean>) => void
   }) {
-
-  function handleCopyURL() {
-    navigator.clipboard.writeText(urls.sendToBasket);
-  }
 
   const basketName = urls.sendToBasket.split('/').slice(-1)[0];
   const copyURL = `http://3.239.38.255/api/${basketName}`;
@@ -23,11 +20,10 @@ export default function Modal({urls, setVisibleModal}:
             <Link to={`/baskets/${basketName}`}> {urls.viewBasket}
             </Link>
           </li>
-          <li>To send an HTTP request to your basket, use {copyURL}
-          To send an HTTP request to your basket, use /G0DEl2oH
-            <button onClick={handleCopyURL}>
-              Copy URL
-            </button>
+          <li>To send an HTTP request to your basket, use
+            <CopyToClipboard text={copyURL}>
+              <button>Copy URL</button>
+            </CopyToClipboard>
           </li>
         </ul>
       </main>
