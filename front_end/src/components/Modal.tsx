@@ -22,7 +22,8 @@ export default function Modal({urls, setVisibleModal}:
             <Link to={`/baskets/${basketName}`}> {urls.viewBasket}
             </Link>
           </li>
-          <li>To send an HTTP request to your basket, use {urls.sendToBasket}
+          <li>To send an HTTP request to your basket, use http://3.239.38.255/api/{urls.sendToBasket}
+          To send an HTTP request to your basket, use /G0DEl2oH
             <button onClick={handleCopyURL}>
               Copy URL
             </button>
