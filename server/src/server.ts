@@ -1,4 +1,4 @@
-import "./models/env";
+// import "./models/env";
 import express from "express";
 import cors from "cors";
 import { Router } from "express";

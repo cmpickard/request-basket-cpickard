@@ -4,15 +4,6 @@ import { pgModel } from "../models/pgModel";
 import type { RequestData } from "../types/requests";
 
 export const basketController = {
-  // handleGetBaskets(req: Request, res: Response) {
-  //   // Serve React app.
-  //   res.send("Hello world");
-  // },
-
-  // handleRedirectToBaskets(req: Request, res: Response) {
-  //   res.redirect("/baskets");
-  // },
-
   async handleGetBasketRequests(req: Request<{ endpoint: string }>, res: Response) {
     const { endpoint } = req.params;
 
@@ -40,11 +31,13 @@ export const basketController = {
           const token = await pgModel.addNewBasket(endpoint);
           res.status(200).json({ [`basket_${endpoint}`]: token });
         } catch (e) {
+          console.log(e);
           res.status(400).json({ error: "Basket could not be created." });
         }
       }
     } catch (e) {
       console.error(e);
+      res.send(400).json({ error: "Something went wrong accessing Postgres. "});
     }
   },
 
