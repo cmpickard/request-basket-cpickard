@@ -6,6 +6,8 @@ export function registerHttpRoutes(router: Router) {
 
   router.post("/api/baskets/create/:endpoint", basketController.handleCreateNewBasket);
 
+  router.get("/api/health", basketController.handleHealthCheck);
+
   router.all("/api/:endpoint", basketController.handleWebhookRequest);
 
   router.put("/api/:endpoint/clear", basketController.handleClearBasket);

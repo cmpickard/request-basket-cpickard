@@ -4,6 +4,10 @@ import { pgModel } from "../models/pgModel";
 import type { RequestData } from "../types/requests";
 
 export const basketController = {
+  handleHealthCheck(_req: Request, res: Response) {
+    res.send(200);
+  },
+
   async handleGetBasketRequests(req: Request<{ endpoint: string }>, res: Response) {
     const { endpoint } = req.params;
 
