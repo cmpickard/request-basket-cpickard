@@ -1,4 +1,4 @@
-import type { Request } from '../types/Request';
+import type { Request } from '../types';
 import { useState, type SyntheticEvent } from 'react';
 import { Headers } from './Headers.tsx';
 

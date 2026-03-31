@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import { connectPostgres } from "./pgModel";
 
 export async function connectDBs() {
   await connectMongo();
+  await connectPostgres();
 }
 
 async function connectMongo() {

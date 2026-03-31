@@ -1,11 +1,11 @@
-import type { BasketToken } from "../types/Token";
+import type { BasketToken } from "../types";
 const BASE62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export function createBasketName() {
   let result = '';
 
   for (let count = 0; count < 8; count++) {
-    let randomIndex = Math.floor(Math.random() * 62);
+    const randomIndex = Math.floor(Math.random() * 62);
     result += BASE62[randomIndex];
   }
   
@@ -19,13 +19,13 @@ export function isValidBasketName(name: string) {
 }
 
 export function getBasketsFromStorage() {
-  let tokens = Object.entries(localStorage).filter((entry: [string, string]) => {
+  const tokens = Object.entries(localStorage).filter((entry: [string, string]) => {
     return /^basket_/.test(entry[0]);
   });
 
-  let tokenArray = tokens.map((pair: [string, string]) => {
-    let key: string = pair[0].replace('basket_', '');
-    let value: string = pair[1];
+  const tokenArray = tokens.map((pair: [string, string]) => {
+    const key: string = pair[0].replace('basket_', '');
+    const value: string = pair[1];
     return Object.fromEntries([[key, value]]) as BasketToken;
   });
 

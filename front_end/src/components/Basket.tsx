@@ -1,26 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RequestList from './RequestList.tsx';
-import type { Request } from '../types/Request';
-// import { useWebSocket } from '../hooks/useWebSocket';
+import { getBasketRequests, clearBasket } from '../api/basketApi';
+import type { Request } from '../types';
 
 export default function Basket() {
   const [requests, setRequests] = useState<Array<Request>>([]);
-  let { url } = useParams();
+  const { url } = useParams();
 
   function getRequests() {
     (async () => {
       try {
-        let response = await fetch(`http://localhost:3000/api/baskets/${url}/`);
-        if (response.ok) {
-          setRequests(await response.json());
-        } else {
-          let { error } = await response.json();
-          console.error(error);
-        }
+        setRequests(await getBasketRequests(url!));
       } catch (e: Error | unknown) {
         if (e instanceof Error) {
-          console.error(e)
+          console.error(e);
         }
       }
     })();
@@ -29,29 +23,16 @@ export default function Basket() {
   useEffect(getRequests, []);
   
   async function handleClearBasket() {
-    let options = {
-      method: 'PUT'
-    };
-
     try {
-      const response = await fetch(`http://localhost:3000/api/${url}/clear`, options);
-      if (!response.ok) {
-        const { error } = await response.json();
-        console.error(error);
-        return;
-      } 
-      
-      const { deletedCount } = await response.json();
+      const { deletedCount } = await clearBasket(url!);
       console.log(`Deleted ${deletedCount} responses`);
       setRequests([]);
     } catch (error: Error | unknown) {
       if (error instanceof Error) {
         console.error(error.message);
-      } else {
-        console.error(error);
       }
     }
-  } 
+  }
   
 
   return (

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Modal from  "./Modal"
 import { createBasketName, isValidBasketName, getBasketsFromStorage } from "../utils/basketUtilities";
-import type { BasketUrls } from "../types/BasketUrls";
-import type { BasketToken } from "../types/Token";
+import { createBasket } from "../api/basketApi";
+import type { BasketUrls, BasketToken } from "../types";
 import BasketList from './BasketList';
 
 function BasketNameError({error}: {error: string}) {
@@ -28,32 +28,19 @@ export default function Home() {
       return;
     }
 
-    let options = {
-      method: 'POST'
-    };
-
     try {
-      let response = await fetch(`http://localhost:3000/api/baskets/create/${basketName}`, options);
-      if (response.ok) {
-        console.log('Basket successfully created');
-        let token: BasketToken = await response.json();
-        console.log(token);
-        localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
-        let urls: BasketUrls = {
-          viewBasket: `/api/baskets/${basketName}`,
-          sendToBasket: `/${basketName}`,
-        }
-        setUrls(urls);
-        setVisibleModal(true);
-        setBasketTokens(getBasketsFromStorage());
-      } else {
-        let message = await response.text();
-        setError(message);
-      }
-    
+      const token: BasketToken = await createBasket(basketName);
+      localStorage.setItem(Object.keys(token)[0], Object.values(token)[0]);
+      const urls: BasketUrls = {
+        viewBasket: `/api/baskets/${basketName}`,
+        sendToBasket: `/${basketName}`,
+      };
+      setUrls(urls);
+      setVisibleModal(true);
+      setBasketTokens(getBasketsFromStorage());
     } catch (e: Error | unknown) {
       if (e instanceof Error) {
-        console.log(e.message);
+        setError(e.message);
       }
     }
   }

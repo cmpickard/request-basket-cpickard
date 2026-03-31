@@ -1,4 +1,4 @@
-import type { BasketUrls } from "../types/BasketUrls";
+import type { BasketUrls } from "../types";
 import { Link } from 'react-router-dom';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
@@ -8,7 +8,7 @@ export default function Modal({urls, setVisibleModal}:
   }) {
 
   const basketName = urls.sendToBasket.split('/').slice(-1)[0];
-  const copyURL = `http://localhost:3000/api/${basketName}`;
+  const copyURL = `/api/${basketName}`;
   return (
     <div id="overlay"
          onClick={() => setVisibleModal(false)}>

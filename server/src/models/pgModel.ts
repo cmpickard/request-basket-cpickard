@@ -1,7 +1,5 @@
 import { generateToken } from "../services/token";
 import { Pool } from "pg";
-import dotenv from "dotenv";
-dotenv.config();
 
 const pgURI = process.env.PG_URI;
 if (!pgURI) throw new Error('PG_URI not set in .env');
@@ -10,11 +8,10 @@ const pool = new Pool({
     connectionString: pgURI,
 });
 
-// verify postgres connection
-(async () => {
+export async function connectPostgres() {
   await pool.query('SELECT 1');
   console.log('Postgres connected!');
-})();
+}
 
 export const pgModel = {
   async addNewBasket(endpoint: string) {

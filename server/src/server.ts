@@ -1,4 +1,4 @@
-// import "./models/env";
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { Router } from "express";
@@ -6,7 +6,7 @@ import { registerHttpRoutes } from './routes/httpRoutes';
 import { connectDBs } from "./models/dbConnection";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ?? "3000";
 
 app.use(express.json());
 app.use(cors());

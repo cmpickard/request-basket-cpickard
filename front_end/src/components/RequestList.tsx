@@ -1,15 +1,13 @@
-import type { Request }  from '../types/Request.ts';
+import type { Request }  from '../types';
 import SingleRequest from './SingleRequest.tsx';
 
 export default function RequestList({requests}: {requests: Array<Request>}) {
-  let nextKey = 0;
-
   return (
     <>
       {requests.length === 0 && <p>No requests...</p>}
       <div className="request-list">
         {requests.map((request) => (
-          <ul className="request-list-item" key={nextKey++}>
+          <ul className="request-list-item" key={request._id}>
             <SingleRequest request={request} />
           </ul>
         ))}
