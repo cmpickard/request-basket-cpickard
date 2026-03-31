@@ -8,7 +8,7 @@ export default function Modal({urls, setVisibleModal}:
   }) {
 
   const basketName = urls.sendToBasket.split('/').slice(-1)[0];
-  const copyURL = `http://3.239.38.255/api/${basketName}`;
+  const copyURL = `http://localhost:3000/api/${basketName}`;
   return (
     <div id="overlay"
          onClick={() => setVisibleModal(false)}>

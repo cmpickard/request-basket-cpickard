@@ -41,7 +41,7 @@ export const basketController = {
       }
     } catch (e) {
       console.error(e);
-      res.send(400).json({ error: "Something went wrong accessing Postgres. "});
+      res.status(400).json({ error: "Something went wrong accessing Postgres. "});
     }
   },
 
